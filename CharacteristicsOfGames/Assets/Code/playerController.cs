@@ -31,10 +31,12 @@ public class playerController : MonoBehaviour
         float xSpeed = Input.GetAxis("Horizontal") * speed;
         _rigidbody.velocity = new Vector2(xSpeed, _rigidbody.velocity.y); // rb.velocity.y = grav
         if (xSpeed < 0) {
-            sprite.flipX = true;
+            //sprite.flipX = true;
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
         }
         else if (xSpeed > 0) {
-            sprite.flipX = false;
+            //sprite.flipX = false;
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
 
         if (grounded && Input.GetButtonDown("Jump")) {
