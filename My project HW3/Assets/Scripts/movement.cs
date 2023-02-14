@@ -15,8 +15,8 @@ public class movement : MonoBehaviour
     // {
         
     // }
-
-
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+    // basic definition
     private float horizontal;
     private float speed = 6f;
     private float jumpingPower = 15f;
@@ -56,6 +56,12 @@ public class movement : MonoBehaviour
     
     [SerializeField] private LayerMask layerSpike;
 
+
+
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+    // basic process
     private void Update()
     {
         
@@ -127,9 +133,11 @@ public class movement : MonoBehaviour
         }
     }
 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+    // basic functions
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(checkGround.position, 0.2f, layerGround);
+        return Physics2D.OverlapCircle(checkGround.position, 0.1f, layerGround);
     }
 
 
@@ -137,9 +145,11 @@ public class movement : MonoBehaviour
         // return (Physics2D.OverlapCircle(checkSpike.position, 0.1f,layerSpike)||Physics2D.OverlapCircle(checkSpikeDown.position, 0.1f,layerSpike));
         return Physics2D.OverlapArea(checkSpike.position +new Vector3(-0.6f,-0.6f,0f),checkSpike.position + new Vector3(0.6f,0.6f,0f),layerSpike);
     }
+
+
     private bool IsWalled()
     {
-        return Physics2D.OverlapCircle(checkWall.position, 0.2f, layerWall);
+        return Physics2D.OverlapCircle(checkWall.position, 0.1f, layerWall);
     }
 
     private void WallSlide()
@@ -157,6 +167,7 @@ public class movement : MonoBehaviour
         }
     }
 
+    // wall jump and touch spikes
     private void WallJump()
     {
         if (isWallSliding||isSpikeTouching)
@@ -189,6 +200,11 @@ public class movement : MonoBehaviour
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
+        
+        
+        
+        
+        // spike logic here, like wall jump
         //  (rb.velocity.x!=0||(rb.velocity.x==0&&rb.velocity.y!=0))&&
         if (isSpikeTouching && wallJumpingCounter > 0f)
         // if (isSpikeTouching && rb.velocity.x!=0&& wallJumpingCounter > 0f)
@@ -198,14 +214,17 @@ public class movement : MonoBehaviour
                 // rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x * 0.5f, rb.velocity.y+6f);
 
                 rb.velocity = new Vector2(lastDirection *-3f, rb.velocity.y+6f);
+                print("case: horizontal approching spikes");
+            }else if(rb.velocity.y>0){
+                rb.velocity = new Vector2(-3f*lastDirection,-6f);
+                print("case: from bottom to top");
+                isWallGrabbing=false;
+                isWallSliding=false;
             }else{
                 rb.velocity = new Vector2(-3f*lastDirection,6f);
-                print("here");
+                print("case: general spike");
             }
             
-
-            
-
 
             wallJumpingCounter = 0f;
             
@@ -217,22 +236,19 @@ public class movement : MonoBehaviour
                 transform.localScale = localScale;
             }
 
+
+            // touch spike shining 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
             isSpikeTouching = false;
             Invoke (nameof(spikeShake),0.05f);
-            print("111111");
+            print("111");
             Invoke("resetColor",0.1f);
             print("222");
             Invoke (nameof(spikeShake),0.15f);
             print("333");
-            
             Invoke("resetColor",0.2f);
             print("444");
         }
-
-
-
-
 
     }
     private void spikeShake(){
@@ -261,8 +277,6 @@ public class movement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
-
-
 
 
 
