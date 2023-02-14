@@ -5,8 +5,10 @@ using UnityEngine;
 public class Grappling : MonoBehaviour
 {
     LineRenderer lineRenderer;
-    SpringJoint2D springJoint;
+    public SpringJoint2D springJoint;
     public Transform mouth;
+    Rigidbody2D currentTarget;
+    bool canGrapple = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +25,45 @@ public class Grappling : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown("Fire1")){
-            lineRenderer.enabled = !lineRenderer.enabled;
-            springJoint.enabled = !springJoint.enabled;
+            if(canGrapple){
+                lineRenderer.enabled = !lineRenderer.enabled;
+                springJoint.enabled = !springJoint.enabled;
+                springJoint.connectedBody = currentTarget;
+            }
+            else{
+                lineRenderer.enabled = false;
+                springJoint.enabled = false;
+            }
         }
         lineRenderer.SetPosition(0, mouth.position);
         // set the second position to the connected anchor which is attached to a rigidbody
         lineRenderer.SetPosition(1, springJoint.connectedAnchor + (Vector2)springJoint.connectedBody.transform.position);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        print(collision.gameObject.tag);
+        if (collision.gameObject.tag == "GrapplePoint")
+        {
+            canGrapple = true;
+            currentTarget = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "GrapplePoint")
+        {
+            canGrapple = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        print("exited");
+        if (collision.gameObject.tag == "GrapplePoint")
+        {
+            canGrapple = false;
+        }
     }
 }
