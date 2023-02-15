@@ -11,17 +11,31 @@ public class playerController : MonoBehaviour
     SpriteRenderer sprite;
     Color origColor;
     int speed = 8;
-    int jumpForce = 800;
+    public int jumpForce = 600;
 
     public LayerMask groundLayer;
     public Transform FeetTrans;
-    float groundCheckDist = 1f; // bigger val = for wall stick/climb
+    float groundCheckDist = 0.3f; // bigger val = for wall stick/climb
     bool grounded = false;
 
     public bool invis = false;
     float stamina = 10;
+    float scalex;
 
-    //private Color origColor;
+    // Consolidating code
+    bool isWalled;
+    bool isWallSliding;
+    float wallSlidingSpeed = 1f;
+    bool isWallJumping;
+    float wallJumpingDirection;
+    float wallJumpingTime = 0.2f;
+    float wallJumpingCounter;
+    float wallJumpingDuration = 0.4f;
+    Vector2 wallJumpingPower = new Vector2(6f, 15f);
+    private bool isWallGrabbing;
+    public Transform checkWall;
+    public float spikeLaunchForce = 7f;
+    Color originColor;
 
     void Start()
     {
@@ -30,11 +44,19 @@ public class playerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         origColor = GetComponent<Renderer>().material.color;
+        scalex = transform.localScale.x;
     }
 
     private void FixedUpdate() {
         grounded = Physics2D.OverlapCircle(FeetTrans.position, groundCheckDist, groundLayer);
         _animator.SetBool("Grounded", grounded);
+        if (!isWallJumping)
+        {
+            _rigidbody.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _rigidbody.velocity.y);
+        }
+        if(isWallGrabbing){
+            _rigidbody.velocity = new Vector2(0, Input.GetAxis("Vertical") *speed);
+        }
     }
 
     void Update()
@@ -46,12 +68,11 @@ public class playerController : MonoBehaviour
 
         // flip character left or right direction
         if (xSpeed < 0) {
-            //sprite.flipX = true;
-            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(-scalex, transform.localScale.y, transform.localScale.z);
         }
         else if (xSpeed > 0) {
             //sprite.flipX = false;
-            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(scalex, transform.localScale.y, transform.localScale.z);
         }
 
         // check if grounded and jumping
@@ -66,6 +87,24 @@ public class playerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && invis) {
             invis = false;
         } 
+
+        // wall grabbing
+        isWalled = Physics2D.OverlapCircle(checkWall.position, 0.1f, groundLayer);
+        if(isWalled  && Input.GetButton("Grab")){
+            isWallGrabbing = true;
+        }
+        if(!isWalled ||!Input.GetButton("Grab")){
+            isWallGrabbing = false;
+            // print("grab false now");
+        }else if(Input.GetButton("Grab")&&Input.GetButtonDown("Jump")){
+            isWallGrabbing = false;
+            _rigidbody.AddForce(new Vector2(jumpForce/2 * transform.localScale.x * -1, jumpForce));
+        }
+        if(isWallGrabbing){
+            _rigidbody.gravityScale = 0;
+        }else{
+            _rigidbody.gravityScale = 2.5f; //same as previous setting 
+        }
 
         if (invis) {
             gameObject.GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
@@ -83,5 +122,30 @@ public class playerController : MonoBehaviour
                 //print(stamina);   
             }
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.layer == 9){
+            isWallGrabbing = false;
+            print("spike");
+            isWallJumping = false;
+            Invoke (nameof(spikeShake),0.05f);
+            Invoke("resetColor",0.1f);
+            Invoke (nameof(spikeShake),0.15f);
+            Invoke("resetColor",0.2f);
+
+            // launch player away from spike
+            _rigidbody.velocity = (transform.position - other.transform.position).normalized * spikeLaunchForce;
+        }
+    }
+
+    private void spikeShake(){
+        originColor = this.GetComponent<SpriteRenderer>().color;
+        this.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+        // Invoke("resetColor",0.2f);
+    }
+    private void resetColor(){
+        // this.GetComponent<SpriteRenderer>().color = originColor;
+        this.GetComponent<SpriteRenderer>().color = new Color(255,255,255,255);
     }
 }

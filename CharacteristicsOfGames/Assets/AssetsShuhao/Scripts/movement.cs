@@ -18,12 +18,12 @@ public class movement : MonoBehaviour
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
     // basic definition
     private float horizontal;
-    private float speed = 6f;
-    private float jumpingPower = 15f;
+    public float speed = 6f;
+    public float jumpingPower = 15f;
     private bool isFacingRight = true;
 
     private bool isWallSliding;
-    private float wallSlidingSpeed = 1f;
+    public float wallSlidingSpeed = 1f;
 
 
     private bool isWallJumping;

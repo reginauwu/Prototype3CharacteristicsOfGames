@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grappling : MonoBehaviour
 {
     LineRenderer lineRenderer;
-    public SpringJoint2D springJoint;
+    SpringJoint2D springJoint;
     public Transform mouth;
     Rigidbody2D currentTarget;
     bool canGrapple = false;
@@ -24,7 +24,7 @@ public class Grappling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1")){
+        if(Input.GetButtonDown("Fire3")){
             if(canGrapple){
                 lineRenderer.enabled = !lineRenderer.enabled;
                 springJoint.enabled = !springJoint.enabled;
@@ -35,9 +35,11 @@ public class Grappling : MonoBehaviour
                 springJoint.enabled = false;
             }
         }
-        lineRenderer.SetPosition(0, mouth.position);
-        // set the second position to the connected anchor which is attached to a rigidbody
-        lineRenderer.SetPosition(1, springJoint.connectedAnchor + (Vector2)springJoint.connectedBody.transform.position);
+        if(springJoint.enabled){
+            lineRenderer.SetPosition(0, mouth.position);
+            // set the second position to the connected anchor which is attached to a rigidbody
+            lineRenderer.SetPosition(1, springJoint.connectedAnchor + (Vector2)springJoint.connectedBody.transform.position);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
