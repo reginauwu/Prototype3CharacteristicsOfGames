@@ -68,7 +68,7 @@ public class enemyCode : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) {
         if (other.gameObject.CompareTag("Platforms")) {
-            transform.localScale = new Vector2(-(Mathf.Sign(_rigidbody.velocity.x)), transform.localScale.y);
+            transform.localScale = new Vector2(-(Mathf.Sign(_rigidbody.velocity.x)) , transform.localScale.y);
         }
     }
 }
