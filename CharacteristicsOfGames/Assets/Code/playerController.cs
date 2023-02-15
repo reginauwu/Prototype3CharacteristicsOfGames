@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -22,20 +23,21 @@ public class playerController : MonoBehaviour
     float stamina = 10;
     float scalex;
 
+    bool jumpStart = true;
+
     // Consolidating code
     bool isWalled;
     bool isWallSliding;
     float wallSlidingSpeed = 1f;
     bool isWallJumping;
-    float wallJumpingDirection;
-    float wallJumpingTime = 0.2f;
-    float wallJumpingCounter;
-    float wallJumpingDuration = 0.4f;
-    Vector2 wallJumpingPower = new Vector2(6f, 15f);
+    Vector2 wallJumpingPower = new Vector2(600f, 590f);
     private bool isWallGrabbing;
     public Transform checkWall;
     public float spikeLaunchForce = 7f;
+    float lastDirection;
     Color originColor;
+    public int health = 3;
+    bool invincible = false;
 
     void Start()
     {
@@ -48,13 +50,14 @@ public class playerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        float horizontal = Input.GetAxis("Horizontal");
         grounded = Physics2D.OverlapCircle(FeetTrans.position, groundCheckDist, groundLayer);
         _animator.SetBool("Grounded", grounded);
-        if (!isWallJumping)
+        if (!jumpStart)
         {
-            _rigidbody.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(horizontal * speed, _rigidbody.velocity.y);
         }
-        if(isWallGrabbing){
+        if(!jumpStart && isWallGrabbing){
             _rigidbody.velocity = new Vector2(0, Input.GetAxis("Vertical") *speed);
         }
     }
@@ -62,19 +65,22 @@ public class playerController : MonoBehaviour
     void Update()
     {
         // left and right movement
-        float xSpeed = Input.GetAxis("Horizontal") * speed;
-        _rigidbody.velocity = new Vector2(xSpeed, _rigidbody.velocity.y); // rb.velocity.y = grav
-        _animator.SetFloat("Speed", Mathf.Abs(xSpeed));
+        float horizontal = Input.GetAxis("Horizontal");
+        if(!jumpStart && !isWallGrabbing){
+            float xSpeed = horizontal * speed;
+            _rigidbody.velocity = new Vector2(xSpeed, _rigidbody.velocity.y); // rb.velocity.y = grav
+            _animator.SetFloat("Speed", Mathf.Abs(xSpeed));
 
-        // flip character left or right direction
-        if (xSpeed < 0) {
-            transform.localScale = new Vector3(-scalex, transform.localScale.y, transform.localScale.z);
+            // flip character left or right direction
+            if (xSpeed < 0) {
+                transform.localScale = new Vector3(-scalex, transform.localScale.y, transform.localScale.z);
+            }
+            else if (xSpeed > 0) {
+                //sprite.flipX = false;
+                transform.localScale = new Vector3(scalex, transform.localScale.y, transform.localScale.z);
+            }
+    
         }
-        else if (xSpeed > 0) {
-            //sprite.flipX = false;
-            transform.localScale = new Vector3(scalex, transform.localScale.y, transform.localScale.z);
-        }
-
         // check if grounded and jumping
         if (grounded && Input.GetButtonDown("Jump")) {
             _rigidbody.AddForce(new Vector2(0, jumpForce));
@@ -87,25 +93,31 @@ public class playerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && invis) {
             invis = false;
         } 
+        if(Input.GetButtonUp("Jump")){
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y/2);
+        }
 
         // wall grabbing
         isWalled = Physics2D.OverlapCircle(checkWall.position, 0.1f, groundLayer);
-        if(isWalled  && Input.GetButton("Grab")){
+        if(!jumpStart && isWalled  && Input.GetButton("Grab")){
             isWallGrabbing = true;
         }
         if(!isWalled ||!Input.GetButton("Grab")){
             isWallGrabbing = false;
             // print("grab false now");
-        }else if(Input.GetButton("Grab")&&Input.GetButtonDown("Jump")){
-            isWallGrabbing = false;
-            _rigidbody.AddForce(new Vector2(jumpForce/2 * transform.localScale.x * -1, jumpForce));
+        }else if((isWallGrabbing || isWalled) &&Input.GetButtonDown("Jump")){
+            print("YEWFWUEF");
+            jumpStart = true;
+            _rigidbody.AddForce(new Vector2(wallJumpingPower.x * transform.localScale.x * -1, wallJumpingPower.y));
         }
-        if(isWallGrabbing){
+        if(!jumpStart && isWallGrabbing){
             _rigidbody.gravityScale = 0;
         }else{
             _rigidbody.gravityScale = 2.5f; //same as previous setting 
         }
-
+        if(jumpStart && !isWalled){
+            jumpStart = false;
+        }
         if (invis) {
             gameObject.GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
@@ -122,20 +134,30 @@ public class playerController : MonoBehaviour
                 //print(stamina);   
             }
         }
+        lastDirection = horizontal==0?lastDirection:horizontal;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.layer == 9){
-            isWallGrabbing = false;
+            if(!invincible){
+                health -= 1;
+                invincible = true;
+            }
             print("spike");
-            isWallJumping = false;
+            isWallGrabbing = false;
             Invoke (nameof(spikeShake),0.05f);
             Invoke("resetColor",0.1f);
             Invoke (nameof(spikeShake),0.15f);
             Invoke("resetColor",0.2f);
+            Invoke (nameof(vulnerable),0.3f);
+
+            if(health <= 0){
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
 
             // launch player away from spike
-            _rigidbody.velocity = (transform.position - other.transform.position).normalized * spikeLaunchForce;
+            _rigidbody.velocity = new Vector2(lastDirection *-3f, _rigidbody.velocity.y+6f);
+
         }
     }
 
@@ -147,5 +169,9 @@ public class playerController : MonoBehaviour
     private void resetColor(){
         // this.GetComponent<SpriteRenderer>().color = originColor;
         this.GetComponent<SpriteRenderer>().color = new Color(255,255,255,255);
+    }
+
+    private void vulnerable(){
+        invincible = false;
     }
 }

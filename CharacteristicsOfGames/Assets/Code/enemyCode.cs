@@ -27,7 +27,7 @@ public class enemyCode : MonoBehaviour
 
         //float distance = Vector2.Distance(transform.position, player.transform.position);
         float distance = transform.position.x - player.transform.position.x;
-        print(distance);
+        //print(distance);
 
 
         if (distance < 5 && distance > 0 && !facingRight() && !playerController.p.invis) { // player to left of enemy
