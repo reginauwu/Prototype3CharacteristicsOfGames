@@ -27,19 +27,20 @@ public class enemyCode : MonoBehaviour
 
         //float distance = Vector2.Distance(transform.position, player.transform.position);
         float distance = transform.position.x - player.transform.position.x;
+        float distanceY = transform.position.y - player.transform.position.y;
         //print(distance);
 
 
-        if (distance < 5 && distance > 0 && !facingRight() && !playerController.p.invis) { // player to left of enemy
+        if (distance < 3 && distance > 0 && !facingRight() && !playerController.p.invis) { // player to left of enemy
             timer += Time.deltaTime;
-            if (timer > 2) {
+            if (timer > 0.5) {
                 timer = 0;
                 shoot();
             }
             attack = true;
-        } else if (distance < 0 && distance > -5 && facingRight() && !playerController.p.invis) { // player to right of enemy 
+        } else if (distance < 0 && distance > -3 && facingRight() && !playerController.p.invis) { // player to right of enemy 
             timer += Time.deltaTime;
-            if (timer > 2) {
+            if (timer > 0.5) {
                 timer = 0;
                 shoot();
             }
@@ -68,7 +69,11 @@ public class enemyCode : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) {
         if (other.gameObject.CompareTag("Platforms")) {
+            print("collide");
             transform.localScale = new Vector2(-(Mathf.Sign(_rigidbody.velocity.x)) , transform.localScale.y);
         }
     }
+
+
+
 }

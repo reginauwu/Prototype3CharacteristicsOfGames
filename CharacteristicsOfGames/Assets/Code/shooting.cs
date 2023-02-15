@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class shooting : MonoBehaviour
 {
@@ -37,6 +38,15 @@ public class shooting : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Player") || (other.gameObject.CompareTag("Platforms"))) {
             Destroy(gameObject);
+
+            if (other.gameObject.CompareTag("Player")) {
+                print(playerController.p.health);
+                playerController.p.health -= 1;
+
+                if (playerController.p.health <= 0){
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+            }
         }
     }
 }
