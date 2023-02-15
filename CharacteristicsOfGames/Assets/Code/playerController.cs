@@ -99,10 +99,10 @@ public class playerController : MonoBehaviour
 
         // wall grabbing
         isWalled = Physics2D.OverlapCircle(checkWall.position, 0.1f, groundLayer);
-        if(!jumpStart && isWalled  && Input.GetButton("Grab")){
+        if(!jumpStart && isWalled  && Input.GetButton("Fire3")){
             isWallGrabbing = true;
         }
-        if(!isWalled ||!Input.GetButton("Grab")){
+        if(!isWalled ||!Input.GetButton("Fire3")){
             isWallGrabbing = false;
             // print("grab false now");
         }else if((isWallGrabbing || isWalled) &&Input.GetButtonDown("Jump")){
