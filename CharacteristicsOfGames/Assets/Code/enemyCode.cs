@@ -25,12 +25,20 @@ public class enemyCode : MonoBehaviour
     void Update()
     {
 
-        float distance = Vector2.Distance(transform.position, player.transform.position);
+        //float distance = Vector2.Distance(transform.position, player.transform.position);
+        float distance = transform.position.x - player.transform.position.x;
+        print(distance);
 
-        // if player is close to enemy, shoot at player
-        if (distance < 6 && !playerController.p.invis) {
+
+        if (distance < 5 && distance > 0 && !facingRight() && !playerController.p.invis) { // player to left of enemy
             timer += Time.deltaTime;
-
+            if (timer > 2) {
+                timer = 0;
+                shoot();
+            }
+            attack = true;
+        } else if (distance < 0 && distance > -5 && facingRight() && !playerController.p.invis) { // player to right of enemy 
+            timer += Time.deltaTime;
             if (timer > 2) {
                 timer = 0;
                 shoot();
@@ -38,8 +46,7 @@ public class enemyCode : MonoBehaviour
             attack = true;
         } else {
             attack = false;
-        } 
-
+        }
 
         // movement
         if (facingRight() && !attack) {
