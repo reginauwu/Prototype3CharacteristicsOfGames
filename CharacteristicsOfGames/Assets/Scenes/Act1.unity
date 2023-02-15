@@ -180,6 +180,131 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5af3ad95a8116604db72b8f375701689, type: 3}
+--- !u!1 &15102701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 15102704}
+  - component: {fileID: 15102703}
+  - component: {fileID: 15102702}
+  m_Layer: 0
+  m_Name: Square (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!60 &15102702
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15102701}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.57558393, y: 0.7512194}
+      - {x: 0.23343873, y: 0.71361643}
+      - {x: 0.1702165, y: 0.5476659}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
+      - {x: -0.18563013, y: -0.5653692}
+      - {x: -0.15704972, y: -0.62115777}
+      - {x: -0.09084068, y: -0.60021335}
+      - {x: -0.04217525, y: -0.60388356}
+      - {x: 0.85777986, y: -0.6797218}
+      - {x: 0.89533633, y: -0.81798893}
+      - {x: 1.0550597, y: -0.81300044}
+      - {x: 1.1347181, y: -0.6199135}
+      - {x: 1.2125598, y: -0.46426705}
+      - {x: 1.3681524, y: 0.7061224}
+--- !u!212 &15102703
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15102701}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &15102704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15102701}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.0126, y: 0.3796, z: 0}
+  m_LocalScale: {x: 59.20583, y: 11.170807, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &28352375 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5514711577563879117, guid: 5af3ad95a8116604db72b8f375701689, type: 3}
@@ -14044,8 +14169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 3.75, y: 2.65, z: -10}
-  m_XDamping: 3.4
-  m_YDamping: 4.8
+  m_XDamping: 0.5
+  m_YDamping: 2
   m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
@@ -14483,21 +14608,24 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.57558393, y: 0.7512194}
-      - {x: 0.23343873, y: 0.71361643}
-      - {x: 0.1702165, y: 0.5476659}
+    - - {x: 0.6279558, y: 0.49459463}
+      - {x: 0.24233206, y: 0.6193462}
+      - {x: 0.19907293, y: 0.5681903}
+      - {x: 0.14057204, y: 0.48481905}
+      - {x: 0.014788614, y: 0.4524054}
+      - {x: -0.09197448, y: 0.4448014}
       - {x: -0.5, y: 0.5}
       - {x: -0.5, y: -0.5}
-      - {x: -0.18563013, y: -0.5653692}
-      - {x: -0.15704972, y: -0.62115777}
-      - {x: -0.09084068, y: -0.60021335}
+      - {x: -0.22317977, y: -0.6596394}
+      - {x: -0.14716823, y: -0.6892418}
+      - {x: -0.08194736, y: -0.6630601}
       - {x: -0.04217525, y: -0.60388356}
-      - {x: 0.85777986, y: -0.6797218}
+      - {x: 0.8478983, y: -0.7582804}
       - {x: 0.89533633, y: -0.81798893}
       - {x: 1.0550597, y: -0.81300044}
       - {x: 1.1347181, y: -0.6199135}
       - {x: 1.2125598, y: -0.46426705}
-      - {x: 1.3681524, y: 0.7061224}
+      - {x: 1.0776367, y: 0.21382213}
 --- !u!212 &843323044
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14711,6 +14839,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 760623400043671557, guid: 86f75e55e3516784f9fce1c62b571ac3, type: 3}
+      propertyPath: level
+      value: Act2
+      objectReference: {fileID: 0}
     - target: {fileID: 760623400043671558, guid: 86f75e55e3516784f9fce1c62b571ac3, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -15076,7 +15208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035275942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6314373, y: 1.1240499, z: -10}
+  m_LocalPosition: {x: -2.0290034, y: 0.66305995, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16054,7 +16186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BoundingShape2D: {fileID: 843323043}
-  m_Damping: 0.5
+  m_Damping: 0.33
   m_MaxWindowSize: -1
 --- !u!4 &1371610519 stripped
 Transform:
