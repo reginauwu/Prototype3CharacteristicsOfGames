@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - GrapplePoint
+  - Platforms
+  - Bullet
   layers:
   - Default
   - TransparentFX
