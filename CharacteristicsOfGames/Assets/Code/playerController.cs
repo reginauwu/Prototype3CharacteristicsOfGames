@@ -71,7 +71,7 @@ public class playerController : MonoBehaviour
             gameObject.GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
             stamina -= Time.deltaTime * 2;
-            print(stamina);
+            //print(stamina);
 
             if (stamina < 0) {
                 invis = false;
@@ -80,7 +80,7 @@ public class playerController : MonoBehaviour
             gameObject.GetComponent<Renderer>().material.color = origColor;
             if (stamina < 10) {
                 stamina += Time.deltaTime;
-                print(stamina);   
+                //print(stamina);   
             }
         }
     }

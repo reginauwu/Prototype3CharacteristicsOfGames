@@ -10,7 +10,7 @@ public class shooting : MonoBehaviour
 
     private float flashTimer;
     
-    public float force = 10;
+    public float force = 8;
 
     void Start()
     {
